@@ -4,7 +4,6 @@
         <meta charset="UTF-8">
         <title>JS Drum Kit</title>
         <link rel="stylesheet" href="style.css">
-        <script type="text/javascript" src="main.js"></script>
     </head>
     <body>
         <div class="keys">
@@ -57,7 +56,14 @@
         <audio data-key="76" src="sounds/tink.wav"></audio>
 
         <script>
-            window.addEventListener('keydown', function (e) {
+            /*
+                Completed Jan 4th, 2018 by Francisco S.
+                Learned about key events, listening for the trasition end event,as well as playing audio.
+            */
+
+            window.addEventListener('keydown', playSound);
+
+            function playSound(e) {
                 const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
                 const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
                 if (!audio) 
@@ -66,17 +72,16 @@
                 audio.play();
                 key.classList.add('playing');
                 //console.log(key.classList);
-            });
+            }
 
             function removeTransition(e) {
                 if (e.propertyName !== 'transform') 
-                    return; //skip if no transform
-                console.log(e.propertyName);
+                    return; //skip if no transform property
+                this.classList.remove('playing');
             }
 
             const keys = document.querySelectorAll('.key');
             keys.forEach(key => key.addEventListener('transitionend', removeTransition));
-            console.log(keys);
         </script>
 
     </body>
